@@ -1,0 +1,72 @@
+<!doctype html>
+const colors = ['#ff4d6d', '#ff6fa3', '#ffb6c1', '#ff8ab8', '#ff3d5b'];
+const color = colors[Math.floor(Math.random() * colors.length)];
+
+
+// SVG do coração (para ficar nítido em qualquer tamanho)
+el.innerHTML = `
+<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path fill="${color}" d="M23.6 0c-2.9 0-5.3 1.8-6.6 4.3C15.7 1.8 13.3 0 10.4 0 4.7 0 0 4.9 0 11c0 7.4 11 13.2 16 18.6 5-5.4 16-11.2 16-18.6 0-6.1-4.7-11-8.4-11z"/>
+</svg>
+`;
+
+
+// duração e atraso aleatórios
+const duration = 4000 + Math.random() * 3500; // 4s a 7.5s
+const delay = Math.random() * 800; // até 0.8s
+
+
+el.style.animation = `floatUp ${duration}ms ease-in forwards`;
+el.style.animationDelay = delay + 'ms';
+
+
+// rotacionar levemente com variação
+el.style.transformOrigin = '50% 50%';
+
+
+// remover do DOM ao final da animação para não acumular
+setTimeout(() => {
+if (el && el.parentNode) el.parentNode.removeChild(el);
+}, duration + delay + 500);
+
+
+container.appendChild(el);
+}
+
+
+// criar alguns corações iniciais
+for (let i = 0; i < 6; i++) {
+setTimeout(() => criarCoracao(), i * 300);
+}
+
+
+// adicionar quando clicar
+addHeartBtn.addEventListener('click', () => {
+criarCoracao(50); // centraliza um pouco o novo coração
+});
+
+
+// permitir tocar/arrastar para criar onde o usuário clicar/tocar
+document.querySelector('.card').addEventListener('click', (e) => {
+// calcular posição em percentuais relativo ao card
+const rect = e.currentTarget.getBoundingClientRect();
+const x = ((e.clientX - rect.left) / rect.width) * 100;
+criarCoracao(x);
+});
+
+
+resetBtn.addEventListener('click', () => {
+container.innerHTML = '';
+});
+
+
+// Acessibilidade: usar espaço/enter para adicionar
+addHeartBtn.addEventListener('keydown', (ev) => {
+if (ev.key === ' ' || ev.key === 'Enter') {
+ev.preventDefault();
+criarCoracao(50);
+}
+});
+</script>
+</body>
+</html>
