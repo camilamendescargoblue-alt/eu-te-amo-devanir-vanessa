@@ -1,72 +1,132 @@
 <!doctype html>
-const colors = ['#ff4d6d', '#ff6fa3', '#ffb6c1', '#ff8ab8', '#ff3d5b'];
-const color = colors[Math.floor(Math.random() * colors.length)];
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eu te amo Devanir e Vanessa ❤️</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #f6d365 50%, #fbc2eb 100%);
+      overflow: hidden;
+      color: #2b0a2b;
+      text-align: center;
+      padding: 24px;
+    }
 
+    .card {
+      position: relative;
+      background: rgba(255,255,255,0.85);
+      border-radius: 20px;
+      padding: 48px 32px;
+      box-shadow: 0 10px 30px rgba(18,18,20,0.12);
+      max-width: 90vw;
+      backdrop-filter: blur(6px);
+    }
 
-// SVG do coração (para ficar nítido em qualquer tamanho)
-el.innerHTML = `
-<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-<path fill="${color}" d="M23.6 0c-2.9 0-5.3 1.8-6.6 4.3C15.7 1.8 13.3 0 10.4 0 4.7 0 0 4.9 0 11c0 7.4 11 13.2 16 18.6 5-5.4 16-11.2 16-18.6 0-6.1-4.7-11-8.4-11z"/>
-</svg>
-`;
+    h1 {
+      font-size: clamp(28px, 5vw, 56px);
+      color: #b3005a;
+      margin-bottom: 12px;
+    }
 
+    p {
+      font-size: clamp(14px, 2vw, 18px);
+      opacity: 0.8;
+    }
 
-// duração e atraso aleatórios
-const duration = 4000 + Math.random() * 3500; // 4s a 7.5s
-const delay = Math.random() * 800; // até 0.8s
+    .hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
 
+    .heart {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.9;
+      animation: floatUp 6s ease-in forwards;
+    }
 
-el.style.animation = `floatUp ${duration}ms ease-in forwards`;
-el.style.animationDelay = delay + 'ms';
+    .heart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.9); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-400px) scale(1.3); opacity: 0; }
+    }
 
-// rotacionar levemente com variação
-el.style.transformOrigin = '50% 50%';
+    .btn {
+      background: linear-gradient(90deg, #ff6fa3, #ffb6c1);
+      border: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin: 8px;
+      cursor: pointer;
+      color: #4b002b;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(210,45,90,0.12);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Eu te amo Devanir e Vanessa ❤️</h1>
+    <p>O amor está no ar — e cheio de corações flutuando 💕</p>
+    <div class="hearts" id="heartsContainer"></div>
+    <button class="btn" id="addHeartBtn">Espalhar amor</button>
+    <button class="btn" id="resetBtn">Limpar</button>
+  </div>
 
+  <script>
+    const container = document.getElementById("heartsContainer");
+    const addHeartBtn = document.getElementById("addHeartBtn");
+    const resetBtn = document.getElementById("resetBtn");
 
-// remover do DOM ao final da animação para não acumular
-setTimeout(() => {
-if (el && el.parentNode) el.parentNode.removeChild(el);
-}, duration + delay + 500);
+    function criarCoracao(xPercent = null) {
+      const el = document.createElement("div");
+      el.className = "heart";
+      const size = Math.random() * 30 + 20;
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      const left = xPercent !== null ? xPercent : Math.random() * 100;
+      const top = 80 + Math.random() * 15;
+      el.style.left = left + "%";
+      el.style.top = top + "%";
 
+      const cores = ["#ff4d6d", "#ff6fa3", "#ffb6c1", "#ff8ab8", "#ff3d5b"];
+      const cor = cores[Math.floor(Math.random() * cores.length)];
 
-container.appendChild(el);
-}
+      el.innerHTML = `
+        <svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+          <path fill="${cor}" d="M23.6 0c-2.9 0-5.3 1.8-6.6 4.3C15.7 1.8 13.3 0 10.4 0 4.7 0 0 4.9 0 11c0 7.4 11 13.2 16 18.6 5-5.4 16-11.2 16-18.6 0-6.1-4.7-11-8.4-11z"/>
+        </svg>
+      `;
 
+      const duration = 4000 + Math.random() * 3000;
+      el.style.animation = `floatUp ${duration}ms ease-in forwards`;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), duration);
+    }
 
-// criar alguns corações iniciais
-for (let i = 0; i < 6; i++) {
-setTimeout(() => criarCoracao(), i * 300);
-}
+    // corações iniciais
+    for (let i = 0; i < 6; i++) {
+      setTimeout(() => criarCoracao(), i * 400);
+    }
 
-
-// adicionar quando clicar
-addHeartBtn.addEventListener('click', () => {
-criarCoracao(50); // centraliza um pouco o novo coração
-});
-
-
-// permitir tocar/arrastar para criar onde o usuário clicar/tocar
-document.querySelector('.card').addEventListener('click', (e) => {
-// calcular posição em percentuais relativo ao card
-const rect = e.currentTarget.getBoundingClientRect();
-const x = ((e.clientX - rect.left) / rect.width) * 100;
-criarCoracao(x);
-});
-
-
-resetBtn.addEventListener('click', () => {
-container.innerHTML = '';
-});
-
-
-// Acessibilidade: usar espaço/enter para adicionar
-addHeartBtn.addEventListener('keydown', (ev) => {
-if (ev.key === ' ' || ev.key === 'Enter') {
-ev.preventDefault();
-criarCoracao(50);
-}
-});
-</script>
+    addHeartBtn.addEventListener("click", () => criarCoracao(50));
+    resetBtn.addEventListener("click", () => (container.innerHTML = ""));
+  </script>
 </body>
 </html>
